@@ -75,3 +75,19 @@ export async function criarTabelaVendas(conexao){
         console.log('Tabela vendas já existe.');
     }
 }
+export async function criarTabelaProdutos(conexao){
+    const existe = await conexao.schema.hasTable('produtos');
+    if(!existe){
+        await conexao.schema.createTable('produtos', tabela =>  {
+            tabela.increments('codpro').primary().unsigned().notNullable();
+            tabela.string('nome', 100).notNullable();
+            tabela.string('descricao', 255).notNullable();
+            tabela.decimal('preco', 10, 2).notNullable();
+            tabela.integer('quantidade_estoque').notNullable();
+            tabela.integer('fornecedor_id').unsigned().notNullable().references('codfor').inTable('fornecedores');
+        });
+        console.log('Tabela produtos criada com sucesso!');
+    }else{
+        console.log('Tabela produtos já existe.');
+    }
+}    

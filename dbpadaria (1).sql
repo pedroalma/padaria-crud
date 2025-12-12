@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12/12/2025 às 12:46
+-- Tempo de geração: 12/12/2025 às 15:52
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -36,6 +36,15 @@ CREATE TABLE `cliente` (
   `usuario_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Despejando dados para a tabela `cliente`
+--
+
+INSERT INTO `cliente` (`codcli`, `nome`, `telefone`, `email`, `endereco`, `usuario_id`) VALUES
+(1, 'Maria Souza', '(11)99876-5432', 'maria@gmail.com', 'Avenida B, 456, Rio de Janeiro, RJ', 1),
+(2, 'Maria Souza', '(11)99876-5432', 'maria@gmail.com', 'Avenida B, 456, Rio de Janeiro, RJ', 1),
+(3, 'Maria Souza', '(11)91234-5678', 'maria@gmail.com', 'Avenida D, 101, Salvador, BA', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -49,6 +58,14 @@ CREATE TABLE `fornecedores` (
   `email` varchar(50) NOT NULL,
   `endereco` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Despejando dados para a tabela `fornecedores`
+--
+
+INSERT INTO `fornecedores` (`codfor`, `nome`, `telefone`, `email`, `endereco`) VALUES
+(1, 'Fornecedor X', '(11)91234-5678', 'fornecedorX@gmail.com', 'Rua A, 123, São Paulo, SP'),
+(3, 'Fornecedor X', '(11)93456-7890', 'fornecedorX@gmail.com', 'Rua C, 789, Belo Horizonte, MG');
 
 -- --------------------------------------------------------
 
@@ -65,6 +82,37 @@ CREATE TABLE `funcionarios` (
   `senha` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Despejando dados para a tabela `funcionarios`
+--
+
+INSERT INTO `funcionarios` (`codfun`, `nome`, `email`, `cpf`, `telefone`, `senha`) VALUES
+(1, 'João Silva', 'João@gmail.com', '123.456.789-00', '(11)98765-4321', 'joao123'),
+(3, 'Carlos Pereira', 'João@gmail.com', '123.456.789-00', '(11)97654-3210', 'joao123');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `produtos`
+--
+
+CREATE TABLE `produtos` (
+  `codpro` int(10) UNSIGNED NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `descricao` varchar(255) NOT NULL,
+  `preco` decimal(10,2) NOT NULL,
+  `quantidade_estoque` int(11) NOT NULL,
+  `fornecedor_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Despejando dados para a tabela `produtos`
+--
+
+INSERT INTO `produtos` (`codpro`, `nome`, `descricao`, `preco`, `quantidade_estoque`, `fornecedor_id`) VALUES
+(1, 'Pão Francês', 'Pão', 0.50, 100, 1),
+(3, 'Pão Francês', 'Pão', 0.55, 120, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -77,6 +125,14 @@ CREATE TABLE `usuarios` (
   `email` varchar(50) NOT NULL,
   `senha` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Despejando dados para a tabela `usuarios`
+--
+
+INSERT INTO `usuarios` (`codUsu`, `nome`, `email`, `senha`) VALUES
+(1, 'admin', 'admin@gmail.com', 'admin123'),
+(3, 'Pedro Silva', 'Silva@gmail.com', 'admin123');
 
 -- --------------------------------------------------------
 
@@ -92,6 +148,14 @@ CREATE TABLE `vendas` (
   `funcionario_id` int(10) UNSIGNED NOT NULL,
   `fornecedor_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Despejando dados para a tabela `vendas`
+--
+
+INSERT INTO `vendas` (`codven`, `data_venda`, `valor_total`, `cliente_id`, `funcionario_id`, `fornecedor_id`) VALUES
+(1, '2024-06-15', 1500.00, 1, 1, 1),
+(3, '2024-06-15', 1750.00, 1, 1, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -117,6 +181,13 @@ ALTER TABLE `funcionarios`
   ADD PRIMARY KEY (`codfun`);
 
 --
+-- Índices de tabela `produtos`
+--
+ALTER TABLE `produtos`
+  ADD PRIMARY KEY (`codpro`),
+  ADD KEY `produtos_fornecedor_id_foreign` (`fornecedor_id`);
+
+--
 -- Índices de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -139,31 +210,37 @@ ALTER TABLE `vendas`
 -- AUTO_INCREMENT de tabela `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `codcli` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `codcli` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedores`
 --
 ALTER TABLE `fornecedores`
-  MODIFY `codfor` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `codfor` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `codfun` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `codfun` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de tabela `produtos`
+--
+ALTER TABLE `produtos`
+  MODIFY `codpro` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `codUsu` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `codUsu` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `vendas`
 --
 ALTER TABLE `vendas`
-  MODIFY `codven` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `codven` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restrições para tabelas despejadas
@@ -174,6 +251,12 @@ ALTER TABLE `vendas`
 --
 ALTER TABLE `cliente`
   ADD CONSTRAINT `cliente_usuario_id_foreign` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`codUsu`);
+
+--
+-- Restrições para tabelas `produtos`
+--
+ALTER TABLE `produtos`
+  ADD CONSTRAINT `produtos_fornecedor_id_foreign` FOREIGN KEY (`fornecedor_id`) REFERENCES `fornecedores` (`codfor`);
 
 --
 -- Restrições para tabelas `vendas`
